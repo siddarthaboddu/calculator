@@ -1,54 +1,104 @@
-﻿searchWord = "";
-
-function query() {
-    // var searchWord = "x" + document.getElementById("text").value + "x";
-    console.log("dasf");
-    searchWord = document.getElementById("inputtext").value;
-   // searchWord = '1' + searchWord + '2';
-    console.log(searchWord);
-    if (new String(searchWord).valueOf() == new String("").valueOf()) {
-        htmlstring = '<div class=row id="query0" style="color:whitesmoke;text-align:center">search results not found</div>';
-        $("#list").append(htmlstring);
-    }
-    else {
-        searchWord = searchWord.replace(/ /gi, "%20");
-        console.log(searchWord);
-        try {
-            nodee = document.getElementById("query0").parentNode;
-            for (var i = 0; i < 10; i++) {
-                nodee.removeChild(document.getElementById("query" + i));
-            }
-            console.log('try');
-        }
-        catch (e) { }
-
-        //$.getJSON("https://en.wikipedia.org/w/api.php?action=query&format=json&gsrlimit=15&generator=search&origin=*&gsrsearch=" + searchWord, function (data) { console.log(data);});
-        $.getJSON("https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&origin=*&srsearch=" + searchWord, function (data) {
-            console.log(data);
-            renderOutputHtml(data);
-
+﻿var result = 0;
+var str = "";
+var num1 = "";
+var operation = "";
+function disp(x) {
+    var s=$("#current").text();
+    $("#current").text(s + x);
+}
+$(document).ready(function () {
+        $("#ac").click(function () {
+            result = "";
+            num1 = "";
+            operation = "";
+            $("#screen").text("");
+            $("#current").text("");
         });
-    }
+        $("#ce").click(function () {
+            result = "";
+            num1 = "";
+            operation = "";
+            $("#screen").text("");
+            $("#current").text("");
+        });
+        $("#0").click(function(){
+            num1 += "0";
+            disp("0");
+        });
+        $("#1").click(function () {
+            num1 += "1"; disp("1");
+        });
+        $("#2").click(function () {
+            num1 += "2"; disp("2");
+        });
+        $("#3").click(function () {
+            num1 += "3"; disp("3");
+        });
+        $("#4").click(function () {
+            num1 += "4"; disp("4");
+        });
+        $("#5").click(function () {
+            num1 += "5"; disp("5");
+        });
+        $("#6").click(function () {
+            num1 += "6"; disp("6");
+        });
+        $("#7").click(function () {
+            num1 += "7"; disp("7");
+        });
+        $("#8").click(function () {
+            num1 += "8"; disp("8");
+        });
+        $("#9").click(function () {
+            console.log($("#9").text());
+            num1 += "9"; disp("9");
+        });
+        $("#-").click(function () {
+            result = num1;
+            num1 = "";
+            operation = "-"; disp("-");
+        });
+        $("#plus").click(function () {
+            result = num1;
+            num1 = "";
+            operation = "+"; disp("+");
+        });
 
-}
-function renderOutputHtml(ourdata) {
-    var results = ourdata["query"]["search"];
-    var htmlstring = "";
-    console.log(results);
-    if (results.length == 0) {
-        htmlstring = '<div class=row id="query0" style="color:whitesmoke;text-align:center">search results not found</div>';
-    }
-    else
-    for (var i = 0; i < results.length; i++) {
-        var link = "https://en.wikipedia.org/wiki/" + results[i]["title"].replace(/ /gi, "_");
-        htmlstring += '<div class="card"  id="query'+i+'">' + '<a href="'+link+' " ><h3 style="margin-bottom:0px">'+results[i]["title"]+'</h3>' +'<br>'+results[i]["snippet"] + '</a></div>';
+        $("#div").click(function () {
+            result = num1;
+            num1 = "";
+            operation = "/"; disp("/");
+        });
+
+        $("#mul").click(function () {
+            result = num1;
+            num1 = "";
+            operation = "*"; disp("x");
+        });
+        $("#dot").click(function () {
+            num1 += ".";
+            disp(".");
+        });
+
+    
+        $("#returnn").click(function () {
+            console.log($("#returnn").text());
         
-    }
-    $("#list").append(htmlstring);
-}
+            if(operation=="-")
+                result = result - num1;
+            if (operation == "+")
+                result = (+(result)) + (+(num1));
+            if (operation == "/")
+                result = result / num1;
+            if (operation == "*")
+                result = result * num1;
 
-function main() {
-  
-   //$('#search').click(query());
-}
-$(document).ready(main);
+        
+            $("#screen").text("" + result);
+            num1 = "";
+            $("#current").text("");
+        });
+
+   
+    }
+     );
